@@ -7,6 +7,7 @@ class Chat extends React.Component{
     this.state = {
       data: {
         isAudio:false,
+        message:"",
       }
     }
   }
@@ -33,6 +34,8 @@ class Chat extends React.Component{
         }
         if (data.type === 'message_response') {
           for (let message of data.messages) {
+            var msg=this.state.data.message+" "+message.payload.content;
+            this.setState({ data: { ...this.state.data, message:msg } });
             console.log('Transcript (more accurate): ', message.payload.content);
           }
         }
@@ -107,6 +110,12 @@ class Chat extends React.Component{
               targetBuffer[index] = 32767 * Math.min(1, inputData[index]);
           }
           // Send audio stream to websocket.
+          if(this.state.data.isAudio==false && ws.readyState === WebSocket.OPEN)
+          {
+             ws.send(JSON.stringify({
+              "type": "stop_request"
+            }));  
+          }
           if (ws.readyState === WebSocket.OPEN) {
             ws.send(targetBuffer.buffer);
           }
@@ -132,7 +141,7 @@ class Chat extends React.Component{
             <input
               name="message"
               type="text"
-              placeholder="Type your message"
+              placeholder={this.state.data.message}
               required
               autocomplete="off"
             />
