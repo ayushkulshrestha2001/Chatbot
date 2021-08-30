@@ -8,6 +8,8 @@ class Chat extends React.Component{
       data: {
         isAudio:false,
         message:"",
+        userMessages:["hi","how are you?","Show me images"],
+        responses:["hello","Fine","NO"],
       }
     }
   }
@@ -63,6 +65,7 @@ class Chat extends React.Component{
       // Fired when the WebSocket connection has been closed
       ws.onclose = (event) => {
         console.info('Connection to websocket closed');
+        this.state.data.userMessages.push(this.state.data.message);
       };
       
       // Fired when the connection succeeds.
@@ -110,7 +113,7 @@ class Chat extends React.Component{
               targetBuffer[index] = 32767 * Math.min(1, inputData[index]);
           }
           // Send audio stream to websocket.
-          if(this.state.data.isAudio==false && ws.readyState === WebSocket.OPEN)
+          if(this.state.data.isAudio===false && ws.readyState === WebSocket.OPEN)
           {
              ws.send(JSON.stringify({
               "type": "stop_request"
@@ -120,14 +123,14 @@ class Chat extends React.Component{
             ws.send(targetBuffer.buffer);
           }
         };
-      };
-      
-      
+      };     
       handleSuccess(stream);
       }
+
+
   handleAudioOff=()=>{
     this.setState({ data: { ...this.state.data, isAudio:false } });
-    
+
   }
     render() {
         return(
@@ -135,7 +138,18 @@ class Chat extends React.Component{
         <div className="chat">
       <div id="sidebar" className="chat__sidebar"></div>
       <div className="chat__main">
-        <div id="messages" className="chat__messages"></div>
+        <div id="messages" className="chat__messages">
+          {this.state.data.userMessages.map((msg,index)=>(
+          <>
+            <div class="message message__me">
+              {msg}
+            </div>
+            <div class="message message__res">
+              {this.state.data.responses[index]}
+            </div>
+          </>
+          ))}
+        </div>
 
         <div className="compose">
           <form id="message-form">
@@ -151,13 +165,22 @@ class Chat extends React.Component{
           <div>
             {!this.state.data.isAudio?<button onClick={this.handleAudioOn}><MicIcon/></button>:
             <button onClick={this.handleAudioOff}><CloseIcon/></button>}
-            
           </div>
         </div>
       </div>
     </div>
 
-    {/* <!-- Templates -->
+    
+
+
+    </div>
+        )}
+};
+
+export default Chat;
+
+
+{/* <!-- Templates -->
     <script id="message-template" type="text/html">
       <div class="message">
         <p>
@@ -195,8 +218,3 @@ class Chat extends React.Component{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/chat.js"></script> */}
-    </div>
-        )}
-};
-
-export default Chat;

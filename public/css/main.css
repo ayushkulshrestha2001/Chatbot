@@ -108,6 +108,8 @@ button:disabled {
 
 .chat__messages {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
     padding: 24px 24px 0 24px;
     overflow-y: scroll;
 }
@@ -116,6 +118,14 @@ button:disabled {
 
 .message {
     margin-bottom: 16px;   
+}
+
+.message__me{
+    justify-self: flex-end;
+}
+
+.message__res{
+    justify-self: flex-start;
 }
 
 .message__name {
