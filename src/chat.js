@@ -9,8 +9,8 @@ class Chat extends React.Component{
       data: {
         isAudio:false,
         message:"",
-        userMessages:["hi","how are you?","Show me images"],
-        responses:["hello","Fine","NO"],
+        userMessages:[],
+        responses:[],
         isclose:false
       },
       client : new GoogleImages('ac478ee049e433320', 'AIzaSyCz8UgubGXywwpD8xyFFkco6aafczNWMNo')
@@ -19,7 +19,7 @@ class Chat extends React.Component{
 
   handleAudioOn=async()=>{
     this.setState({ data: { ...this.state.data, isAudio:true } });
-    const accessToken= await fetch('http://localhost:3001/symbl-token', {
+    const accessToken= await fetch('https://botalysis.herokuapp.com/symbl-token', {
         method: 'get',
         headers: { 'Content-type': 'application/json' }
       })
@@ -71,24 +71,13 @@ class Chat extends React.Component{
         console.info('Connection to websocket closed');
         this.setState({ data: { ...this.state.data, userMessages:[...this.state.data.userMessages, this.state.data.message] } });
         console.log(this.state.data.userMessages);
-        this.state.client.search(this.state.data.message)
+        if(this.state.data.message){
+          this.state.client.search(this.state.data.message)
     .then(images => {
-      console.log(images);
-      /*
-      [{
-        "url": "http://steveangello.com/boss.jpg",
-        "type": "image/jpeg",
-        "width": 1024,
-        "height": 768,
-        "size": 102451,
-        "thumbnail": {
-          "url": "http://steveangello.com/thumbnail.jpg",
-          "width": 512,
-          "height": 512
-        }
-      }]
-       */
+      console.log(images[0].url);
+      this.setState({ data: { ...this.state.data, responses:[...this.state.data.responses,images[0].url] } });
     });
+        }
     this.setState({ data: { ...this.state.data, message:"" } });
       };
       
@@ -168,7 +157,7 @@ class Chat extends React.Component{
               {msg}
             </div>
             <div class="message message__res">
-              {this.state.data.responses[index]}
+              <img style={{height:"150px",width:"100%"}} src={this.state.data.responses[index]}></img>
             </div>
           </>
           ))}
