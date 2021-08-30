@@ -1,6 +1,7 @@
 import React from "react";
 import MicIcon from '@material-ui/icons/Mic';
 import CloseIcon from '@material-ui/icons/Close';
+import GoogleImages from "google-images";
 class Chat extends React.Component{
   constructor(props) {
     super(props);
@@ -11,9 +12,9 @@ class Chat extends React.Component{
         userMessages:["hi","how are you?","Show me images"],
         responses:["hello","Fine","NO"],
         isclose:false
-      }
-    },
-    client : new GoogleImages('ac478ee049e433320', 'AIzaSyCz8UgubGXywwpD8xyFFkco6aafczNWMNo')
+      },
+      client : new GoogleImages('ac478ee049e433320', 'AIzaSyCz8UgubGXywwpD8xyFFkco6aafczNWMNo')
+    }
   }
 
   handleAudioOn=async()=>{
