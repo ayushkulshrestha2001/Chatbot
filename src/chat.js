@@ -2,6 +2,7 @@ import React from "react";
 import MicIcon from '@material-ui/icons/Mic';
 import CloseIcon from '@material-ui/icons/Close';
 import GoogleImages from "google-images";
+import Loader from "react-js-loader"
 class Chat extends React.Component{
   constructor(props) {
     super(props);
@@ -11,14 +12,15 @@ class Chat extends React.Component{
         message:"",
         userMessages:[],
         responses:[],
-        isclose:false
+        loading:false,
+        connecting:false,
       },
       client : new GoogleImages('ac478ee049e433320', 'AIzaSyCz8UgubGXywwpD8xyFFkco6aafczNWMNo')
     }
   }
 
   handleAudioOn=async()=>{
-    this.setState({ data: { ...this.state.data, isAudio:true } });
+    this.setState({ data: { ...this.state.data, isAudio:true,connecting:true } });
     const accessToken= await fetch('https://botalysis.herokuapp.com/symbl-token', {
         method: 'get',
         headers: { 'Content-type': 'application/json' }
@@ -37,6 +39,7 @@ class Chat extends React.Component{
         const data = JSON.parse(event.data);
         if (data.type === 'message' && data.message.hasOwnProperty('data')) {
           console.log('conversationId', data.message.data.conversationId);
+          this.setState({ data: { ...this.state.data, connecting:false } });
         }
         if (data.type === 'message_response') {
           for (let message of data.messages) {
@@ -72,10 +75,11 @@ class Chat extends React.Component{
         this.setState({ data: { ...this.state.data, userMessages:[...this.state.data.userMessages, this.state.data.message] } });
         console.log(this.state.data.userMessages);
         if(this.state.data.message){
+          this.setState({data:{...this.state.data,loading:true}})
           this.state.client.search(this.state.data.message)
     .then(images => {
-      if(images.length!=0){
-      this.setState({ data: { ...this.state.data, responses:[...this.state.data.responses,images[0].url] } });}
+      if(images.length!==0){
+      this.setState({ data: { ...this.state.data, responses:[...this.state.data.responses,images[0].url],loading:false } });}
     });
         }
     this.setState({ data: { ...this.state.data, message:"" } });
@@ -157,13 +161,24 @@ class Chat extends React.Component{
               {msg}
             </div>
             <div class="message message__res">
-              <img style={{height:"150px",width:"100%"}} alt="Image" src={this.state.data.responses[index]}></img>
+              {this.state.data.loading?<Loader type="box-up" bgColor={"#000"} size={50} />
+                :<img style={{height:"150px",width:"100%"}} alt="" src={this.state.data.responses[index]}></img>
+              }
             </div>
           </>
           ))}
         </div>
-
         <div className="compose">
+        <form id="message-form">
+            <input
+              name="message"
+              type="text"
+              value={this.state.data.connecting?"Please wait, conneting to server...":this.state.data.message}
+              required
+              autocomplete="off"
+              disabled
+            />
+          </form>
           <div>
             {!this.state.data.isAudio?<button onClick={this.handleAudioOn}><MicIcon/></button>:
             <button onClick={this.handleAudioOff}><CloseIcon/></button>}
@@ -171,52 +186,8 @@ class Chat extends React.Component{
         </div>
       </div>
     </div>
-
-    
-
-
     </div>
         )}
 };
 
 export default Chat;
-
-
-{/* <!-- Templates -->
-    <script id="message-template" type="text/html">
-      <div class="message">
-        <p>
-          <span class="message__name">{{username}}</span>
-          <span class="message__meta">{{createdAt}}</span>
-        </p>
-        <p>{{message}}</p>
-      </div>
-    </script>
-
-    <script id="location-url-template" type="text/html">
-      <div class="message">
-        <p>
-          <span class="message__name">{{username}}</span>
-          <span class="message__meta">{{createdAt}}</span>
-        </p>
-        <p>
-          <a href="{{url}}" target="_blank">My current location</a>
-        </p>
-      </div>
-    </script>
-
-    <script id="sidebar-template" type="text/html">
-      <h2 class="room-title">{{room}}</h2>
-      <h3 class="list-title">Users</h3>
-      <ul class="users">
-        {{#users}}
-        <li>{{username}}</li>
-        {{/users}}
-      </ul>
-    </script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/js/chat.js"></script> */}

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
 /* General Styles */
 
 * {
@@ -117,15 +118,22 @@ button:disabled {
 /* Message Styles */
 
 .message {
-  margin-bottom: 16px; 
+  margin-bottom: 16px;
 }
 
 .message__me{
   align-self: flex-end;
+  padding: 12px;
+  border-radius: 12px 0 12px 12px;
+  background-color: #d3d3d3;
+  font-family:'Nunito',sans-serif;
+  font-weight:500;
 }
 
 .message__res{
   align-self: flex-start;
+  border-radius: 0 12px 12px 12px;
+
 }
 
 .message__name {
