@@ -10,9 +10,12 @@ class Chat extends React.Component{
         message:"",
         userMessages:["hi","how are you?","Show me images"],
         responses:["hello","Fine","NO"],
+        isclose:false
       }
-    }
+    },
+    client : new GoogleImages('ac478ee049e433320', 'AIzaSyCz8UgubGXywwpD8xyFFkco6aafczNWMNo')
   }
+
   handleAudioOn=async()=>{
     this.setState({ data: { ...this.state.data, isAudio:true } });
     const accessToken= await fetch('http://localhost:3001/symbl-token', {
@@ -66,6 +69,7 @@ class Chat extends React.Component{
       ws.onclose = (event) => {
         console.info('Connection to websocket closed');
         this.state.data.userMessages.push(this.state.data.message);
+        this.setState({ data: { ...this.state.data, isclose:true} });
       };
       
       // Fired when the connection succeeds.
@@ -130,6 +134,30 @@ class Chat extends React.Component{
 
   handleAudioOff=()=>{
     this.setState({ data: { ...this.state.data, isAudio:false } });
+    this.state.client.search("Panda")
+    .then(images => {
+      console.log(images);
+      /*
+      [{
+        "url": "http://steveangello.com/boss.jpg",
+        "type": "image/jpeg",
+        "width": 1024,
+        "height": 768,
+        "size": 102451,
+        "thumbnail": {
+          "url": "http://steveangello.com/thumbnail.jpg",
+          "width": 512,
+          "height": 512
+        }
+      }]
+       */
+    });
+  
+  // paginate results
+  //client.search('Steve Angello', {page: 2});
+  
+  // search for certain size
+  //client.search('Steve Angello', {size: 'large'});
 
   }
     render() {
