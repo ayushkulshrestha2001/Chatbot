@@ -16,23 +16,24 @@ class Chat extends React.Component{
   }
   handleAudioOff=()=>{
     this.setState({ data: { ...this.state.data, isAudio:false } });
+    
   }
     render() {
         return(
     <div>
-        <div class="chat">
-      <div id="sidebar" class="chat__sidebar"></div>
-      <div class="chat__main">
-        <div id="messages" class="chat__messages"></div>
+        <div className="chat">
+      <div id="sidebar" className="chat__sidebar"></div>
+      <div className="chat__main">
+        <div id="messages" className="chat__messages"></div>
 
-        <div class="compose">
+        <div className="compose">
           <form id="message-form">
             <input
               name="message"
               type="text"
               placeholder="Type your message"
               required
-              autocomplete="off"
+              autoComplete="off"
             />
             <button type="submit">Send</button>
           </form>
