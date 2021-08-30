@@ -74,8 +74,8 @@ class Chat extends React.Component{
         if(this.state.data.message){
           this.state.client.search(this.state.data.message)
     .then(images => {
-      console.log(images[0].url);
-      this.setState({ data: { ...this.state.data, responses:[...this.state.data.responses,images[0].url] } });
+      if(images.length!=0){
+      this.setState({ data: { ...this.state.data, responses:[...this.state.data.responses,images[0].url] } });}
     });
         }
     this.setState({ data: { ...this.state.data, message:"" } });
@@ -157,7 +157,7 @@ class Chat extends React.Component{
               {msg}
             </div>
             <div class="message message__res">
-              <img style={{height:"150px",width:"100%"}} src={this.state.data.responses[index]}></img>
+              <img style={{height:"150px",width:"100%"}} alt="Image" src={this.state.data.responses[index]}></img>
             </div>
           </>
           ))}
