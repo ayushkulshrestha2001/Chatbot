@@ -69,8 +69,27 @@ class Chat extends React.Component{
       // Fired when the WebSocket connection has been closed
       ws.onclose = (event) => {
         console.info('Connection to websocket closed');
-        this.state.data.userMessages.push(this.state.data.message);
-        this.setState({ data: { ...this.state.data, isclose:true} });
+        this.setState({ data: { ...this.state.data, userMessages:[...this.state.data.userMessages, this.state.data.message] } });
+        console.log(this.state.data.userMessages);
+        this.state.client.search(this.state.data.message)
+    .then(images => {
+      console.log(images);
+      /*
+      [{
+        "url": "http://steveangello.com/boss.jpg",
+        "type": "image/jpeg",
+        "width": 1024,
+        "height": 768,
+        "size": 102451,
+        "thumbnail": {
+          "url": "http://steveangello.com/thumbnail.jpg",
+          "width": 512,
+          "height": 512
+        }
+      }]
+       */
+    });
+    this.setState({ data: { ...this.state.data, message:"" } });
       };
       
       // Fired when the connection succeeds.
@@ -135,31 +154,6 @@ class Chat extends React.Component{
 
   handleAudioOff=()=>{
     this.setState({ data: { ...this.state.data, isAudio:false } });
-    this.state.client.search("Panda")
-    .then(images => {
-      console.log(images);
-      /*
-      [{
-        "url": "http://steveangello.com/boss.jpg",
-        "type": "image/jpeg",
-        "width": 1024,
-        "height": 768,
-        "size": 102451,
-        "thumbnail": {
-          "url": "http://steveangello.com/thumbnail.jpg",
-          "width": 512,
-          "height": 512
-        }
-      }]
-       */
-    });
-  
-  // paginate results
-  //client.search('Steve Angello', {page: 2});
-  
-  // search for certain size
-  //client.search('Steve Angello', {size: 'large'});
-
   }
     render() {
         return(
@@ -181,16 +175,6 @@ class Chat extends React.Component{
         </div>
 
         <div className="compose">
-          <form id="message-form">
-            <input
-              name="message"
-              type="text"
-              placeholder={this.state.data.message}
-              required
-              autoComplete="off"
-            />
-            <button type="submit">Send</button>
-          </form>
           <div>
             {!this.state.data.isAudio?<button onClick={this.handleAudioOn}><MicIcon/></button>:
             <button onClick={this.handleAudioOff}><CloseIcon/></button>}
