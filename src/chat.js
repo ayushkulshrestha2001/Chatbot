@@ -154,7 +154,27 @@ class Chat extends React.Component{
         return(
     <div>
         <div className="chat">
-      <div id="sidebar" className="chat__sidebar"></div>
+      <div id="sidebar" className="chat__sidebar">
+        <p style={{textAlign:"center", fontSize:"5rem"}}>B</p>
+        <br></br>
+        <p style={{textAlign:"center", fontSize:"5rem"}}>O</p>
+        <br></br>
+        <p style={{textAlign:"center", fontSize:"5rem"}}>T</p>
+        <br></br>
+        <p style={{textAlign:"center", fontSize:"5rem"}}>C</p>
+        <br></br>
+        <p style={{textAlign:"center", fontSize:"5rem"}}>H</p>
+        <br></br>
+        <p style={{textAlign:"center", fontSize:"5rem"}}>A</p>
+        <br></br>
+        <p style={{textAlign:"center", fontSize:"5rem"}}>T</p>
+        <br></br>
+        {/* <p style={{textAlign:"center", fontSize:"60px"}}>I</p>
+        <br></br>
+        <p style={{textAlign:"center", fontSize:"60px"}}>S</p>
+        <br></br> */}
+
+      </div>
       <div className="chat__main">
         <div id="messages" className="chat__messages">
           {this.state.data.userMessages.map((msg,index)=>(

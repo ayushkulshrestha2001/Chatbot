@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 /* General Styles */
 
 * {
@@ -93,9 +94,15 @@ button:disabled {
 .chat__sidebar {
   height: 100vh;
   color: white;
-  background: #333744;
-  width: 225px;
-  overflow-y: scroll
+  background: #374045;
+  width: 6.5rem;
+  border-right: 10px solid;
+  border-color: #000;
+}
+
+.chat__sidebar p{
+  font-family: 'Lobster', cursive;
+  color: #E8EAE6;
 }
 
 /* Chat styles */
