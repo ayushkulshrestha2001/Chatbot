@@ -1,70 +1,76 @@
-# Getting Started with Create React App
+## Inspiration
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### Corporate App
+Comapnies have always struggled to get a proper feedback from their clients due to hassle of giving a feedback and replyinhg to a mail. Because of this companies are unable to get a proper assessment of their helpline/Call center services.To overcome this we have come up with a solution using ai and sentiment analysis to get an internal assessment of calls which will serve as feedback of call and help to incentivize the helpline center employees and increase productivity.
 
-## Available Scripts
+#### Chatbot
+In today's world, People have overcome from typing to search to using Voice as main component from search. We have used Symbl Realtime Voice API and Google search to retrieve text from voice and get images of response. 
 
-In the project directory, you can run:
+## What it does
 
-### `npm start`
+Corporate App allows call center employees to login into there account and upload recordings of their calls and get sentiment analysis of call positive,negative or neutral.
+He/She can get sentiment analysis of all their previous calls and at the same time get link to audio. Admin can login into Admin Portal and enter employee details to get info of all the calls of that employee. Also he can view details of all the calls uploaded by all the users.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Chatbot uses websockets to connect to symbl ai and get text from audio this text is then searched using google Api and image is displayed to User.Currently we are working on adding more functionalities.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## How we built it
+#### Corporate App
+1. Employee adds his recordings(wav format only).
+2. Video is uploaded in fireBase and downloadable link is Fetched.
+3. This link is sent to backend to put Audio on Symbl Audio Async Api and Conversation Id is retrieved.
+4. The Audio link, name, and the `conversationId` and `jobId` are saved in a MongoDB databas
+5. Using conversation ID , Async API is called and messages are fetched as response. 
+6. Messages are then processed to get count of negative , postive and neutral count and get respective percentages. 
+7. Theses are stored in Mongodb and response is sent to Frontend and displayed to User.
+8. User can also get all details of previous uploaded calls and net Sentiments.
+9. Admin can Fetch details of all employess and deatils of there calls.
 
-### `npm test`
+#### ChatBot
+1. User clicks on Mic icon and then a request to setup websocket is sent to symbl API.
+2. After sockets are successfully connected user can start speaking.
+3. Live transcripts are generated and displayed to user.
+4. Once the mic is switched off the query is sent to Google custom search engine and various responses are generated.
+5. The app uses one of the response and displays the image of the desired object.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## Technologies Used:
+#### Corporate App 
+- Symbl Async Audio Api
+- React Js
+- Node Js
+- Express Js
+- MongoDB
+- Firebase
+- HTML
+- CSS
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Chat Bot
+- Symbl Live transcript Api
+- Node Js
+- Express Js
+- React Js
+- Websocket
+- Google Custom Search Api
+- HTML
+- CSS
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## What's next for:
+#### Corporate App 
+- Adding Multiple uploades for user.
+- Allow Admin to generate Beautiful Reports and Graphs from details
+- Adding Functionalities for automatic uploades from call.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Chat Bot 
+- Increase response formats from Chat Bot
+- Ablity to save/download responses.
+- UI upgradations.
 
-### `npm run eject`
+## Live Demo at:
+- https://botalysis.netlify.app/  (Frontend Corporate)
+- https://botalysischat.netlify.app/  (Frontend Chatbot)
+- http://botalysis.herokuapp.com/   (Backend)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Our Repositories(Currently Private):
+- https://github.com/jinik21/botalysisfrontend
+- https://github.com/jinik21/Botalysis
+- https://github.com/jinik21/Chatbot
