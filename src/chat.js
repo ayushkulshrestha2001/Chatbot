@@ -72,7 +72,7 @@ class Chat extends React.Component{
       // Fired when the WebSocket connection has been closed
       ws.onclose = (event) => {
         console.info('Connection to websocket closed');
-        if(this.state.data.message.length!=0){
+        if(this.state.data.message.length!==0){
         this.setState({ data: { ...this.state.data, userMessages:[...this.state.data.userMessages, this.state.data.message] } });
         }
         console.log(this.state.data.userMessages);
