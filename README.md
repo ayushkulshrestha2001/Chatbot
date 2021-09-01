@@ -73,4 +73,4 @@ Chatbot uses websockets to connect to symbl ai and get text from audio this text
 ## Our Repositories(Currently Private):
 - https://github.com/jinik21/botalysisfrontend
 - https://github.com/jinik21/Botalysis
-- https://github.com/jinik21/Chatbot
+- https://github.com/ayushkulshrestha2001/Chatbot
